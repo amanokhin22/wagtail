@@ -1,18 +1,76 @@
 {% extends "base.html" %}
 {% load static %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags wagtailadmin_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
 {% block extra_css %}
 
-<link rel="stylesheet" href="{% static 'css/welcome_page.css' %}">
+<link rel="stylesheet" href="{% static 'css/home_page.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
-<h1>{{ page.body }}</h1>
-{{ page.subtitle|richtext }}
-{{ page.subtitle2|richtext }}
-{{ page.subtitle3|richtext }}
+
+<div class="main_article">
+    <h1>{{ page.intro|richtext }}</h1>
+<article>
+    {% for block in page.body %}
+        {% if block.block_type == 'gallery' %}
+            <ul style="list-style:none; display:flex; flex-direction: column; align-items: center;" class="gallery">
+                {% for text in block.value %}
+                    <li style="padding: 15px; margin: 0 auto">{% include_block block %} </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {% include_block block %}
+        {% endif %}
+    {% endfor %}
+</article>
+</div>
 
 {% endblock content %}
+
+<div class="left_sidebar">
+    {% block left_sidebar %}
+    {% for post in page.get_children %}
+        {% with post=post.specific %}
+            <div><h2><a href="{% pageurl post %}">{{ post.title }}</a></h2></div>
+        {% endwith %}
+    {% endfor %}
+    {% for post in page.get_children %}
+        {% with post=post.specific %}
+            <div><h2><a href="{% pageurl post %}">{{ post.title }}</a></h2></div>
+        {% endwith %}
+    {% endfor %}
+    {% for post in page.get_children %}
+        {% with post=post.specific %}
+            <div><h2><a href="{% pageurl post %}">{{ post.title }}</a></h2></div>
+        {% endwith %}
+    {% endfor %}
+{% endblock left_sidebar %}
+</div>
+
+<div>
+    {% block right_sidebar %}
+    {% for post in page.get_children %}
+        {% with post=post.specific %}
+            <div><h2><a href="{% pageurl post %}">{{ post.title }}</a></h2></div>
+        {% endwith %}
+    {% endfor %}
+    {% for post in page.get_children %}
+        {% with post=post.specific %}
+            <div><h2><a href="{% pageurl post %}">{{ post.title }}</a></h2></div>
+        {% endwith %}
+    {% endfor %}
+    {% for post in page.get_children %}
+        {% with post=post.specific %}
+            <div><h2><a href="{% pageurl post %}">{{ post.title }}</a></h2></div>
+        {% endwith %}
+    {% endfor %}
+{% endblock right_sidebar %}
+</div>
+
+
+
+
+

@@ -1,18 +1,32 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
 
 {% block body_class %}template-blogindexpage{% endblock %}
 
 {% block content %}
-    <h1>{{ page.title }}</h1>
+    <h1 style="margin: 0">{{ page.title }}</h1>
 
-    <div class="intro">{{ page.intro|richtext }}</div>
+    <div>{{ page.intro|richtext }}</div>
 
-    {% for post in blogpages %}
+{% for post in page.get_children %}
+    {% with post=post.specific %}
         <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>
-        {{ post.specific.intro }}
-        {{ post.specific.body|richtext }}
-    {% endfor %}
+        <p>{{ post.intro }}</p>
 
-{% endblock %}
+    {% endwith %}
+{% endfor %}
+
+{% endblock content %}
+
+<!--{% block sidebar %}-->
+<!--<h1>TEST</h1>-->
+
+<!--{% for post in page.get_children %}-->
+<!--    {% with post=post.specific %}-->
+<!--        <h2><a href="{% pageurl post %}">{{ post.title }}</a></h2>-->
+<!--    {% endwith %}-->
+<!--{% endfor %}-->
+
+<!--{% endblock sidebar %}-->

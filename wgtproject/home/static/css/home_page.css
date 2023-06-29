@@ -1,0 +1,24 @@
+.left_sidebar {
+    display: flex;
+    min-width: 300px;
+    justify-content: center;
+    background: #F0F0F0;
+    flex-direction: column;
+}
+
+.left_sidebar h2 {
+    cursor: pointer;
+    padding: 0;
+    margin: 20px;
+}
+
+.left_sidebar a {
+    text-decoration: none;
+    color: black;
+}
+
+.left_sidebar a:hover {
+    color: orange;
+}
+
+

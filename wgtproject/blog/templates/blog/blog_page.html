@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags wagtailadmin_tags %}
 
 {% block body_class %}template-blogpage{% endblock %}
 
@@ -10,7 +10,55 @@
 
     <div class="intro">{{ page.intro }}</div>
 
-    {{ page.body|richtext }}
+
+    <div class="person">
+        {% image value.photo width-400 %}
+        <h2>{{ value.first_name }} {{ value.surname }}</h2>
+        {{ value.biography }}
+    </div>
+
+<article>
+    {% for block in page.stream %}
+        {% if block.block_type == 'person' %}
+            <h1>{{ block.value }}</h1>
+        <div>
+            {% include_block block %}
+        </div>
+        {% endif %}
+    {% endfor %}
+</article>
+
+<article>
+    {% for block in page.body %}
+        {% if block.block_type == 'gallery' %}
+            <ul style="list-style:none; display:flex; align-items: center;" class="gallery">
+                {% for img in block.value %}
+                    <li style="height: 300px; width: 300px; padding: 0; margin: 0 auto">{% image img width-300 height='200' %} </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            (rendering for other block types)
+        {% endif %}
+    {% endfor %}
+</article>
+
+<article>
+    {% for block in page.carousel %}
+        {% if block.block_type == 'carousel' %}
+            <ul style="list-style:none; display:flex; align-items: center; flex-direction: column" class="carousel">
+                {% for slide in block.value %}
+                    {% if slide.block_type == 'image' %}
+                        <li style="padding: 20px; margin: 0 auto"  class="image">{% image slide.value width-300 %}</li>
+                    {% else %}
+                        <li style="width: 300px; padding: 20px; margin: 0 auto" class="video">{% include_block slide %}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            (rendering for other block types)
+        {% endif %}
+    {% endfor %}
+</article>
 
     <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
 
