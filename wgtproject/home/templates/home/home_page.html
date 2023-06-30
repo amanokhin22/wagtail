@@ -3,28 +3,18 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailadmin_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
-
+<head>
+    <title></title>
 {% block extra_css %}
-
-<link rel="stylesheet" href="{% static 'css/home_page.css' %}">
-{% endblock extra_css %}
-
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% endblock extra_css %}
+</head>
 {% block content %}
 
-<div class="main_article">
+<div>
     <h1>{{ page.intro|richtext }}</h1>
-<article>
-    {% for block in page.body %}
-        {% if block.block_type == 'gallery' %}
-            <ul style="list-style:none; display:flex; flex-direction: column; align-items: center;" class="gallery">
-                {% for text in block.value %}
-                    <li style="padding: 15px; margin: 0 auto">{% include_block block %} </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            {% include_block block %}
-        {% endif %}
-    {% endfor %}
+<article class="article">
+    {{ page.body }}
 </article>
 </div>
 
